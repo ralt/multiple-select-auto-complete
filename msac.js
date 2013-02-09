@@ -11,7 +11,7 @@
 
         // Get all the options
         var options = [];
-        $('option', s).each(function() {
+        $('option', $s).each(function() {
             options.push(this.text);
         });
 
