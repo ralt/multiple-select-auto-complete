@@ -130,6 +130,7 @@
         function addToSelection($el) {
             var idx = $el.data('idx');
             $input.val('');
+            currIdx = 0;
             options.splice(idx, 1);
             $el[0].className = 'selected';
             $selection.append($el);
@@ -153,6 +154,9 @@
                         idxs.push(i);
                     }
                 });
+            }
+            else {
+                currIdx = 0;
             }
 
             // "if ([])" passes... we don't want that
