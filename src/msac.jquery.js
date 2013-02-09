@@ -50,8 +50,7 @@
 
         // We need keydown for up/down arrows to prevent default behavior
         $input.on('keydown', function(e) {
-            var keyCode = e.keyCode,
-                $suggested;
+            var keyCode = e.keyCode;
 
             switch (keyCode) {
                 case 13:
