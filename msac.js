@@ -15,10 +15,11 @@
             options.push(this.text);
         });
 
+        // Create the input
         var $input = $('<input />', {
             type: 'text'
         });
-        $input.appendTo('body');
+        $input.insertAfter($s);
 
         // Div for the suggestions
         var $suggestions = $('<div></div>', {
@@ -37,18 +38,24 @@
 
         $input.on('keyup', function(e) {
             if (e.keyCode === 13) {
-                // Pressing enter: reset the value and add the selection
+                // Pressing enter: add the selection
                 addToSelection($('.suggested', $suggestions));
                 return false;
             }
+
+            // Remove the children on each iteration
             $suggestions.children().remove();
+
             var idxs = findInOptions(this.value);
             if (idxs) {
                 $.each(idxs, function(i) {
+                    // Add each suggestion
                     var $newSugg = $sugg.clone();
                     if (i === 0) {
                         $newSugg.addClass('suggested');
                     }
+
+                    // The data will be used when selecting the element
                     $newSugg.data('idx', this.valueOf());
                     $newSugg.text(options[this]).appendTo($suggestions);
                 });
@@ -64,6 +71,11 @@
             addToSelection($(this));
         });
 
+        /**
+         * Empties the input, adds the element to selected,
+         * remove the item from the array of options, and
+         * empty the list of suggestions.
+         */
         function addToSelection($el) {
             $input.val('');
             var idx = $el.data('idx');
@@ -74,6 +86,9 @@
             $suggestions.children().remove();
         }
 
+        /**
+         * Find the indexes where the text matches.
+         */
         function findInOptions(text) {
             var idxs = [],
                 t = text.toLowerCase();
