@@ -10,7 +10,7 @@ behavior at all.
 Multiple select elements are especially hard when there are a lot of items in it,
 this plugin is there to enhance the user experience.
 
-Will be a jQuery plugin.
+This is a jQuery plugin.
 
 Contributors
 ---
