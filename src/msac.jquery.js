@@ -9,6 +9,7 @@
         var $s = $(this),
             options = [],
             currIdx = 0,
+            suggNb,
             $input,
             $suggestions,
             $sugg,
@@ -34,6 +35,7 @@
 
             idxs = findInOptions(this.value);
             if (idxs) {
+                suggNb = idxs.length;
                 $.each(idxs, function(i) {
                     // Add each suggestion
                     var $newSugg = $sugg.clone();
@@ -60,11 +62,15 @@
                     break;
                 case 38:
                     // Up arrow
-                    currIdx--;
+                    if (currIdx > 0) {
+                        currIdx--;
+                    }
                     break;
                 case 40:
                     // Down arrow
-                    currIdx++;
+                    if (currIdx < (suggNb - 1)) {
+                        currIdx++;
+                    }
                     break;
             }
 
