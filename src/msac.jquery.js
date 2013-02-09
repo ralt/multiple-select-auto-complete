@@ -5,6 +5,8 @@
         return this.each(msac);
     };
 
+    $.fn.msac.version = 0.1.0;
+
     function msac() {
         var $s = $(this),
             options = [],
