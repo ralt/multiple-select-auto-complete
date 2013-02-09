@@ -12,6 +12,17 @@ this plugin is there to enhance the user experience.
 
 This is a jQuery plugin.
 
+Usage
+---
+
+Like all the jQuery plugins:
+
+```javascript
+$(selector).msac();
+```
+
+`selector` being the selector for the `<select>` elements you want to transform.
+
 Contributors
 ---
 
