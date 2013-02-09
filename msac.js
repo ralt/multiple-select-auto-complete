@@ -8,6 +8,7 @@
     function msac() {
         var $s = $(this),
             options = [],
+            currIdx = 0,
             $input,
             $suggestions,
             $sugg,
@@ -25,14 +26,8 @@
         placeElements();
 
         // Listen for every key press
-        $input.on('keyup', function(e) {
+        $input.on('keyup', function() {
             var idxs;
-
-            if (e.keyCode === 13) {
-                // Pressing enter: add the selection
-                addToSelection($('.suggested', $suggestions));
-                return false;
-            }
 
             // Remove the children on each iteration
             $suggestions.children().remove();
@@ -42,7 +37,7 @@
                 $.each(idxs, function(i) {
                     // Add each suggestion
                     var $newSugg = $sugg.clone();
-                    if (i === 0) {
+                    if (i === currIdx) {
                         $newSugg.addClass('suggested');
                     }
 
@@ -50,6 +45,35 @@
                     $newSugg.data('idx', this.valueOf());
                     $newSugg.text(options[this]).appendTo($suggestions);
                 });
+            }
+        });
+
+        // We need keydown for up/down arrows to prevent default behavior
+        $input.on('keydown', function(e) {
+            var keyCode = e.keyCode,
+                $suggested;
+
+            switch (keyCode) {
+                case 13:
+                    // Pressing enter: add the selection
+                    addToSelection($('.suggested', $suggestions));
+                    currIdx = 0;
+                    break;
+                case 38:
+                    // Up arrow
+                    currIdx--;
+                    break;
+                case 40:
+                    // Down arrow
+                    currIdx++;
+                    break;
+            }
+
+            switch (keyCode) {
+                case 13:
+                case 38:
+                case 40:
+                    return false;
             }
         });
 
