@@ -129,7 +129,7 @@
          */
         function addToSelection($el) {
             var idx = $el.data('idx');
-            $input.val('');
+            $input[0].value = '';
             currIdx = 0;
             options.splice(idx, 1);
             $el[0].className = 'selected';
