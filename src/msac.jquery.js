@@ -12,6 +12,7 @@
             options = [],
             currIdx = 0,
             suggNb,
+            keyBindings,
             $input,
             $suggestions,
             $sugg,
@@ -37,51 +38,56 @@
 
             idxs = findInOptions(this.value);
             if (idxs) {
-                suggNb = idxs.length;
-                $.each(idxs, function(i) {
-                    // Add each suggestion
-                    var $newSugg = $sugg.clone();
-                    if (i === currIdx) {
-                        $newSugg.addClass('suggested');
-                    }
-
-                    // The data will be used when selecting the element
-                    $newSugg.data('idx', this.valueOf());
-                    $newSugg.text(options[this]).appendTo($suggestions);
-                });
+                addSuggestions(idxs);
             }
         });
 
+        /**
+         * Creates the suggestions and adds them to the list
+         */
+        function addSuggestions(idxs) {
+            suggNb = idxs.length;
+            $.each(idxs, function(i) {
+                // Add each suggestion
+                var $newSugg = $sugg.clone();
+                if (i === currIdx) {
+                    $newSugg.addClass('suggested');
+                }
+
+                // The data will be used when selecting the element
+                $newSugg.data('idx', this.valueOf());
+                $newSugg.text(options[this]).appendTo($suggestions);
+            });
+        }
+
+        // Key bindings: each keyCode has its own function. Allows us to keep
+        // the onkeydown callback clean.
+        keyBindings = {
+            13: function() {
+                // Pressing enter: add the selection
+                addToSelection($('.suggested', $suggestions));
+                currIdx = 0;
+                return false;
+            },
+            38: function() {
+                // Up arrow
+                if (currIdx > 0) {
+                    currIdx--;
+                }
+                return false;
+            },
+            40: function() {
+                // Down arrow
+                if (currIdx < (suggNb - 1)) {
+                    currIdx++;
+                }
+                return false;
+            }
+        };
+
         // We need keydown for up/down arrows to prevent default behavior
         $input.on('keydown', function(e) {
-            var keyCode = e.keyCode;
-
-            switch (keyCode) {
-                case 13:
-                    // Pressing enter: add the selection
-                    addToSelection($('.suggested', $suggestions));
-                    currIdx = 0;
-                    break;
-                case 38:
-                    // Up arrow
-                    if (currIdx > 0) {
-                        currIdx--;
-                    }
-                    break;
-                case 40:
-                    // Down arrow
-                    if (currIdx < (suggNb - 1)) {
-                        currIdx++;
-                    }
-                    break;
-            }
-
-            switch (keyCode) {
-                case 13:
-                case 38:
-                case 40:
-                    return false;
-            }
+            return keyBindings[e.keyCode]();
         });
 
         $suggestions.on('mouseover',  'div', function() {
@@ -133,6 +139,8 @@
          * Empties the input, adds the element to selected,
          * remove the item from the array of options, and
          * empty the list of suggestions.
+         *
+         * This function does way too much. But I'm too lazy to refactor it.
          */
         function addToSelection($el) {
             var idx = $el.data('idx');
