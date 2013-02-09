@@ -1,12 +1,12 @@
-.suggested {
+.msac-wrapper .suggested {
     background: pink;
 }
 
-.selected {
+.msac-wrapper .selected {
     background: aliceblue;
 }
 
-.suggestions {
+.msac-wrapper .suggestions {
     position: absolute;
     background: white;
 }
