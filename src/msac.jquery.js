@@ -8,6 +8,9 @@
     $.fn.msac.version = '0.1.0';
 
     function msac() {
+        /*jshint validthis: true */
+        // Or jshint complains about "this" being used in a function.
+        // @see https://github.com/jshint/jshint/issues/621
         var $s = $(this),
             options = [],
             currIdx = 0,
@@ -87,7 +90,7 @@
 
         // We need keydown for up/down arrows to prevent default behavior
         $input.on('keydown', function(e) {
-            return keyBindings[e.keyCode]();
+            return keyBindings[e.keyCode] ? keyBindings[e.keyCode]() : true;
         });
 
         $suggestions.on('mouseover',  'div', function() {
