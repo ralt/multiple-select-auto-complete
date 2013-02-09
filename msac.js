@@ -71,7 +71,7 @@
                 'class': 'msac-wrapper'
             });
 
-            // Create elements in the variables in closure
+            // Create elements for the variables in closure
             $input = $('<input />', {
                 type: 'text'
             });
