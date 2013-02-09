@@ -1,3 +1,12 @@
-.selected {
+.suggested {
     background: pink;
+}
+
+.selected {
+    background: aliceblue;
+}
+
+.suggestions {
+    position: absolute;
+    background: white;
 }

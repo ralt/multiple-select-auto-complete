@@ -1,6 +1,6 @@
 (function($) {
-var s = $('#s');
-s.hide();
+var $s = $('#s');
+$s.hide();
 
 // Get all the options
 var options = [];
@@ -8,59 +8,63 @@ $('option', s).each(function() {
     options.push(this.text);
 });
 
-var input = $('<input />', {
+var $input = $('<input />', {
     type: 'text'
 });
-input.appendTo('body');
+$input.appendTo('body');
 
 // Div for the suggestions
-var suggestions = $('<div></div>')
-suggestions.appendTo('body');
+var $suggestions = $('<div></div>', {
+    'class': 'suggestions'
+});
+$suggestions.insertAfter($input);
 
 // and one for cloning
-var sugg = suggestions.clone();
+var $sugg = $suggestions.clone();
+$sugg[0].className = 'suggestion';
 
 // Div for selection
-var selection = sugg.clone();
-selection.append($('<h1></h1>', {
-    text: 'Selection'
-}));
-selection.appendTo('body');
+var $selection = $sugg.clone();
+$selection[0].className = 'selection';
+$selection.insertAfter($suggestions);
 
-input.on('keyup', function(e) {
+$input.on('keyup', function(e) {
     if (e.keyCode === 13) {
         // Pressing enter: reset the value and add the selection
-        addToSelection($('.selected', suggestions));
+        addToSelection($('.suggested', $suggestions));
         return false;
     }
-    suggestions.children().remove();
+    $suggestions.children().remove();
     var idxs = findInOptions(this.value);
     if (idxs) {
         $.each(idxs, function(i) {
-            var newSugg = sugg.clone();
+            var $newSugg = $sugg.clone();
             if (i === 0) {
-                newSugg.addClass('selected');
+                $newSugg.addClass('suggested');
             }
-            newSugg.data('idx', this);
-            newSugg.text(options[this]).appendTo(suggestions);
+            $newSugg.data('idx', this);
+            $newSugg.text(options[this]).appendTo($suggestions);
         });
     }
 });
 
-suggestions.on('mouseover',  'div', function() {
-    $('.selected').removeClass('selected');
-    $(this).addClass('selected');
+$suggestions.on('mouseover',  'div', function() {
+    $('.suggested').removeClass('suggested');
+    $(this).addClass('suggested');
 });
 
-suggestions.on('click', 'div', function() {
+$suggestions.on('click', 'div', function() {
     addToSelection($(this));
 });
 
-function addToSelection(el) {
-    input.value = '';
-    el.removeClass('selected');
-    selection.append(el);
-    s[0].options[el.data('idx')].selected = true;
+function addToSelection($el) {
+    $suggestions.children().remove();
+    $input.val('');
+    var idx = $el.data('idx');
+    options.splice(idx, 1);
+    $el[0].className = 'selected';
+    $selection.append($el);
+    $s[0].options[idx].selected = true;
 }
 
 function findInOptions(text) {
