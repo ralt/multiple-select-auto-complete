@@ -12,6 +12,11 @@ this plugin is there to enhance the user experience.
 
 This is a jQuery plugin.
 
+Demo
+---
+
+A demo can be found [here][0].
+
 Usage
 ---
 
@@ -38,3 +43,5 @@ License
 ---
 
 MIT License.
+
+  [0]: http://margaine.com/multiple-select-auto-complete/example/
