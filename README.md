@@ -18,10 +18,14 @@ Usage
 Like all the jQuery plugins:
 
 ```javascript
-$(selector).msac();
+$(selector).msac(opts);
 ```
 
 `selector` being the selector for the `<select>` elements you want to transform.
+
+And `opts` is an object with one or more of the following options:
+
+- `maxItems`: Defaults to 20. If there are more than `maxItems` items matching the auto completion, show a little message saying so. This is to avoid performance problems.
 
 Contributors
 ---

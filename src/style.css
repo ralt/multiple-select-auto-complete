@@ -10,3 +10,11 @@
     position: absolute;
     background: white;
 }
+
+.msac-wrapper .delete {
+    width: 5px;
+    height: 5px;
+    display: block;
+    float: right;
+    cursor: pointer;
+}
