@@ -86,15 +86,12 @@
             * Flash message
             */
             function flash(message) {
-                var $newFlash = $flashMessage.clone();
-                $newFlash.text(message);
-                $newFlash.insertAfter($input);
+                $flashMessage.text(message);
+                $flashMessage.show();
 
-                // It's a flash message: delete after some delay
+                // It's a flash message: hide after some delay
                 setTimeout(function() {
-                    $newFlash.fadeOut(function() {
-                        $(this).remove();
-                    });
+                    $flashMessage.fadeOut();
                 }, opts.flashDelay);
             }
 
@@ -195,6 +192,7 @@
                 });
 
                 $flashMessage = $('<div></div>', { 'class': 'flash' });
+                $flashMessage.hide().insertAfter($input);
             }
 
             /**
