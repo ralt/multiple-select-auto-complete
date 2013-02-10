@@ -7,7 +7,7 @@
         return this.each(msac);
     };
 
-    $.fn.msac.version = '0.1.0';
+    $.fn.msac.version = '1.0.0';
 
     function Msac(opts) {
         opts = $.extend({
