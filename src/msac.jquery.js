@@ -11,7 +11,9 @@
 
     function Msac(opts) {
         opts = $.extend({
-            maxItems: 20
+            maxItems: 20,
+            flashDelay: 2000,
+            maxItemsMessage: 'There are more than %d suggestions.'
         }, opts);
 
         return msac;
@@ -29,7 +31,8 @@
                 $suggestions,
                 $sugg,
                 $selection,
-                $delBtn;
+                $delBtn,
+                $flashMessage;
 
             // Hide the original select
             $s.hide();
@@ -59,9 +62,11 @@
             * Creates the suggestions and adds them to the list
             */
             function addSuggestions(idxs) {
+                var message;
                 suggNb = idxs.length;
                 if (suggNb > opts.maxItems) {
-                    flash('There are more than ' + opts.maxItems + ' suggestions.');
+                    message = opts.maxItemsMessage.replace('%d', opts.maxItems);
+                    flash(message);
                     return;
                 }
                 $.each(idxs, function(i) {
@@ -81,7 +86,16 @@
             * Flash message
             */
             function flash(message) {
-                console.log(message);
+                var $newFlash = $flashMessage.clone();
+                $newFlash.text(message);
+                $newFlash.insertAfter($input);
+
+                // It's a flash message: delete after some delay
+                setTimeout(function() {
+                    $newFlash.fadeOut(function() {
+                        $(this).remove();
+                    });
+                }, opts.flashDelay);
             }
 
             // Key bindings: each keyCode has its own function. Allows us to keep
@@ -174,11 +188,13 @@
                 // And insert the wrapper after the hidden select
                 $wrapper.insertAfter($s);
 
-                // Creates an element but don't use it yet
+                // Creates some elements but don't use them yet
                 $delBtn = $('<span></span>', {
                     'class': 'delete',
                     'html': '&times;'
                 });
+
+                $flashMessage = $('<div></div>', { 'class': 'flash' });
             }
 
             /**

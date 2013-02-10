@@ -26,6 +26,8 @@ $(selector).msac(opts);
 And `opts` is an object with one or more of the following options:
 
 - `maxItems`: Defaults to 20. If there are more than `maxItems` items matching the auto completion, show a little message saying so. This is to avoid performance problems.
+- `maxItemsMessage`: Defaults to `'There are more than %d suggestions.'`. Flash message displayed when there are too many suggestions possible.
+- `flashDelay`: Defaults to `2000`. Delay before which the flash message disappears.
 
 Contributors
 ---
